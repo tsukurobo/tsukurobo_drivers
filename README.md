@@ -1,6 +1,9 @@
 # tsukurobo_drivers
 つくろぼで使う基板の基本的なプログラム．  
 
+## how_to_motor-driver.pdf
+伊勢モードラと金城ステピモードラの（わかりにくい）資料
+
 ## solonoid_board
 ソレノイド基板を動かすためのプログラム．  
 ピン番号を合わせれば動く．  
