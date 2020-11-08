@@ -1,0 +1,2 @@
+name=ATmega88/168P/328P
+version=1.0.0

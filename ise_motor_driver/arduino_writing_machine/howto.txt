@@ -1,0 +1,22 @@
+arduinoをAVR書込装置として使う方法
+
+0.準備
+0.1.安藤さんが作ったシールドを使う
+0.2.Arduino IDEのフォルダ内の「hardware」内に，安藤さんのアレを入れる
+
+1.arduinoをAVR書込装置とする
+1.1.Arduino IDEで「ファイル/スケッチの例/Arduino ISP」を開く1.2.arduinoに書き込む
+
+2.Arduinoを書込装置としてAVRに書き込む
+2.1.AVRに書き込みたいプログラムをArduino IDEで開く
+2.2.「ツール/ボード/ATmega328P」を選択
+2.3.「ツール/Clock/20MHz/X'tal」を選択
+2.4.「ツール/書き込み装置/Arduino as ISP」を選択
+2.5.「ツール/ブートローダを書き込む」を選択
+2.6.「スケッチ/書込装置を使って書き込み」を選択
+
+注意
+ubuntuの場合arduino 1.8.5まで，windows10の場合arduino 1.8.9まで書き込みは成功は確認されている．なぜかubuntuではarduino 1.8.9で書き込みできない．
+
+参考
+https://ht-deko.com/arduino/atmega328p.html
