@@ -1,8 +1,6 @@
 # tsukurobo_drivers
 つくろぼで使う基板の基本的なプログラム．  
 
-[TOC]
-
 ## solonoid_board
 ソレノイド基板を動かすためのプログラム．  
 ピン番号を合わせれば動く．  
@@ -10,10 +8,21 @@
 
 ## ise_motor_driver
 伊勢モータードライバー（伊勢MD）を動かすためのプログラム．  
- - 伊勢MDマスター  
- - 伊勢MDスレーブ  
- - arduino書き込み基板  
-の
+ - master：伊勢MDのマスター（司令を送るarduino）側のプログラム  
+ - slave：伊勢MDのスレーブ（基板上のAVR）側のプログラム  
+ - arduino_writeing_machine：arduinoをAVR書き込み装置とするために必要なファイル  
+
+### master
+特筆事項無し．
+
+### slave
+- i2c_slave：司令をそのまま出力するプログラム  
+- pid_i2c_sleva：角度をPID制御するプログラム  
+- pid_v_i2c_slave：角速度をPID制御するプログラム  
+
+※SM(SMB)方式とLAP方式を変更できるが今(2020/11/8)は保留．誰か書いて  
+- SM(SMB)方式：回転方向と01のデューティ比の2つの司令を送る
+- LAP方式：01と0-1のデューティー比を送る
 
 
 ### arduino_writing_machine
