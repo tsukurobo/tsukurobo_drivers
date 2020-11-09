@@ -24,9 +24,10 @@
 - pid_v_i2c_slave：角速度をPID制御するプログラム  
 
 ※SM(SMB)方式とLAP方式を変更できるが今(2020/11/8)は保留．誰か書いて  
-- SM(SMB)方式：回転方向と01のデューティ比の2つの司令を送る
-- LAP方式：01と0-1のデューティー比を送る
-
+- SM(SMB)方式：回転方向と01のデューティ比の2つの司令を送る．ショートブレーキがある
+- LAP方式：01と0-1のデューティー比を送る  
+https://tattatatakemori.hatenablog.com/entry/2017/07/20/232827  
+https://techweb.rohm.co.jp/motor/knowledge/basics/basics-03/206  
 
 ### arduino_writing_machine
 #### arduino unoをAVR書き込み装置にする方法．
