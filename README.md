@@ -16,12 +16,15 @@
  - arduino_writeing_machine：arduinoをAVR書き込み装置とするために必要なファイル  
 
 ### master
-特筆事項無し．
+ - master：現行バージョンのマスタープログラム  
+ - pre_master：前バージョンのマスタープログラム  
 
 ### slave
-- i2c_slave：司令をそのまま出力するプログラム  
-- pid_i2c_sleva：角度をPID制御するプログラム  
-- pid_v_i2c_slave：角速度をPID制御するプログラム  
+ - ise_motor_driver_ip：現行バージョンのマスタープログラム  
+ - pre：前バージョンのスレーブプログラム  
+ 	 - i2c_slave：司令をそのまま出力するプログラム  
+	 - pid_i2c_sleva：角度をPID制御するプログラム  
+	 - pid_v_i2c_slave：角速度をPID制御するプログラム  
 
 ※SM(SMB)方式とLAP方式を変更できるが今(2020/11/8)は保留．誰か書いて  
 - SM(SMB)方式：回転方向と01のデューティ比の2つの司令を送る．ショートブレーキがある
