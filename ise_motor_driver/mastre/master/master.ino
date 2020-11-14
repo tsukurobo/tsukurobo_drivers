@@ -6,7 +6,7 @@ int pw = 30; //モータに送るパワー(duty比) [-255~255]
 IseMotorDriver mot(addr);
 
 void setup(){
-  IseMotorDriver::begin(1);
+  IseMotorDriver::begin(FAST);
   Serial.begin(9600);
   Serial.println("start");
   mot.setSpeed(0);
