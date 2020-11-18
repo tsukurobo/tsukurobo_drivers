@@ -13,24 +13,38 @@
 #include "motordriver.h"
 #include <avr/interrupt.h>
 
-#define I2C_ADDR 0x14
-
+#define I2C_ADDR 0x20
+#define PWM_64KHZ 0x01
+#define ENTER_CONFIGURATION_MODE 0x7fff
 
 volatile long count = 0;
 volatile int power = 0;
 
 void i2c_received_cb(uint8_t data) {//送られてきた2バイトのデータを結合
-  volatile static uint8_t flag = 0;
+  volatile static uint8_t flag = 0, configFlag = 0; //設定モードに入るかどうかのフラグ 1->ON 0->OFF
+  volatile static uint8_t pwmfreq;
   volatile static unsigned int power_raw=0;
   
   if(flag == 0){
-    power_raw = (unsigned int)data<<8;
+    if(configFlag == 0) power_raw = (unsigned int)data<<8; //通常モード時
+    else if(configFlag == 1) pwmfreq = data; //設定モード時
     flag++;
+    
   }else if(flag == 1){
-    power_raw |= (unsigned int)data;
-    power = (int)power_raw;
+    if(configFlag == 0){ //通常モード時
+      power_raw |= (unsigned int)data;
+      power = (int)power_raw;
+      
+    }else if(configFlag == 1){ //設定モード時
+      motor_init(data, pwmfreq); //Hブリッジの駆動方法とPWM周波数を変更
+      power = 0;
+      configFlag = 0;
+    }
+    
     flag = 0;
-    motor_set_speed(power);
+    
+    if(power == ENTER_CONFIGURATION_MODE) configFlag = 1;
+    else motor_set_speed(power);
   }
 }
 
@@ -60,7 +74,8 @@ void setup (){
 	PCICR |= (1<<PCIE1);
 	////ピン変化割り込み許可（PCINT8）
 	PCMSK1 |= (1<<PCINT8);
-	motor_init();
+  
+	motor_init(SM_BRAKE_LOW_SIDE, PWM_64KHZ); //デフォルトの設定
 	motor_set_speed(power);
 	
 	DDRC = 0x00;

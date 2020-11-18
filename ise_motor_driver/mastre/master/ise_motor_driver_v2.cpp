@@ -6,6 +6,8 @@
 // void IseMotorDriver::setSpeed(int power){}
 // long IseMotorDriver::encoder(){}
 
+#define ENTER_CONFIGURATION_MODE 0x7fff //AVRを設定モードに入れるための値
+
 IseMotorDriver::IseMotorDriver(uint8_t i2caddr){
   // @param uint8_t i2caddr: i2c addr of motor driver
   //initializer
@@ -20,7 +22,7 @@ void IseMotorDriver::begin(uint8_t mode){
 
 // 実行には約160μs(@400kbps)かかる
 void IseMotorDriver::setSpeed(int power){
-  //@param pw(max): -1024~1024
+  //@param pw(max): -255~+255
   //16ビットを8ビットずつ分割して送信
   unsigned int data = (unsigned int)power; //符号なしに変換
   
@@ -51,4 +53,17 @@ long IseMotorDriver::encoder(){
   //Serial.println(buf, HEX);
   //count = (long)buf;
   return (long)buf;
+}
+
+void IseMotorDriver::setMode(uint8_t freq, uint8_t mode){
+  Wire.beginTransmission(this->addr); //送信開始
+  //AVRを設定モードにさせる
+  //設定データを2バイト送信すると設定モード終了
+  Wire.write(ENTER_CONFIGURATION_MODE>>8); //上位8ビット送信
+  Wire.write(((ENTER_CONFIGURATION_MODE>>8)<<8)^ENTER_CONFIGURATION_MODE); //下位8ビット送信
+  //PWM周波数を設定
+  Wire.write(freq);
+  //A3921の動作モードを指定
+  Wire.write(mode);
+  Wire.endTransmission(); //送信終了
 }
