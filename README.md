@@ -26,11 +26,28 @@
 	 - pid_i2c_sleva：角度をPID制御するプログラム  
 	 - pid_v_i2c_slave：角速度をPID制御するプログラム  
 
-※SM(SMB)方式とLAP方式を変更できるが今(2020/11/8)は保留．誰か書いて  
-- SM(SMB)方式：回転方向と01のデューティ比の2つの司令を送る．ショートブレーキがある
+※~~SM(SMB)方式とLAP方式を変更できるが今(2020/11/8)は保留．~~(←伊勢モードラでは機能しない)誰か書いて  
+- SM(SMB)方式：回転方向と01のデューティ比の2つの司令を送る．ショートブレーキがある  
 - LAP方式：01と0-1のデューティー比を送る  
 https://tattatatakemori.hatenablog.com/entry/2017/07/20/232827  
 https://techweb.rohm.co.jp/motor/knowledge/basics/basics-03/206  
+
+### 新バージョンでの変更点
+ - encoder()関数とsetSpeed()関数の実行速度の高速化(内部実装を改変し、従来の大体1/3程度に短縮)  
+ - I2C通信の通信速度を変更できるようにした  
+
+### 2020/11/19での変更点
+ - master側からPWMの周波数とA3921の動作モードを変更できるようにした  
+
+### 新バージョンで新たに実装した関数(IseMotorDriverクラス)
+ - void IseMotorDriver::begin(uint8_t mode) (静的メンバ関数)
+ 	- Wire.begin()の実行と通信速度の変更を行う  
+	- 引数で通信速度を指定。STANDARD: 100kbps, FAST: 400kbps  
+ - void IseMotorDriver::setMode(uint8_t freq, uint8_t mode) (通常のメンバ関数)  
+ 	- PWM周波数とA3921の動作モードの変更を行う  
+	- 第一引数はPWM_1KHZ, PWM_8KHZ, PWM_64KHZのいずれか。各々PWM周波数を1khz, 8khz, 64khzにすることを表す  
+	- 第二引数はSM_BRAKE_LOW_SIDE, SM_BRAKE_HIGH_SIDE, SM_COAST, LAPのいずれか。左から順にSM方式駆動(ショートブレーキあり(high side recirculation/low side recirculation)、ショートブレーキ無し)、LAP方式駆動  
+	- **(注意)伊勢モードラでは配線の都合上LAPが(実質的に)機能しないので、引数にLAPを指定することは推奨されない**  
 
 ### arduino_writing_machine
 #### arduino unoをAVR書き込み装置にする方法．
