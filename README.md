@@ -53,8 +53,9 @@ https://techweb.rohm.co.jp/motor/knowledge/basics/basics-03/206
  - void IseMotorDriver::setMode(uint8_t freq, uint8_t mode) (通常のメンバ関数)  
  	- PWM周波数とA3921の動作モードの変更を行う  
 	- 第一引数はPWM_1KHZ, PWM_8KHZ, PWM_64KHZのいずれか。各々PWM周波数を1khz, 8khz, 64khzにすることを表す  
-	- 第二引数はSM_BRAKE_LOW_SIDE, SM_BRAKE_HIGH_SIDE, SM_COAST, LAPのいずれか。左から順にSM方式駆動(ショートブレーキあり(high side recirculation/low side recirculation)、ショートブレーキ無し)、LAP方式駆動  
+	- 第二引数はSM_BRAKE_LOW_SIDE, SM_BRAKE_HIGH_SIDE, SM_COAST, LAPのいずれか。左から順にSM方式駆動(ショートブレーキあり(low side recirculation/high side recirculation)、ショートブレーキ無し)、LAP方式駆動  
 	- **(注意)伊勢モードラでは配線の都合上モノホンLAPが(実質的に)機能しないので、引数にLAPを指定することは推奨されない**  
+	- この関数は実行しなくても動作します(その場合、PWM周波数は64KHz、A3921の動作モードはSM_BRAKE_LOW_SIDEとなります) 
  
 ### ver.3で使える関数(IseMotorDriverクラス)
  - void IseMotorDriver::begin() 
@@ -63,7 +64,7 @@ https://techweb.rohm.co.jp/motor/knowledge/basics/basics-03/206
  	- MDに速度指令を送る。setSpeed()と同じ機能
  - bool operator << (const byte &)
  	- MDに設定データを送る
-	- 使い方は、md << IseMotorDriver::createSettingData(PWM_FREQ, A3921_MODE) とすればよい
+	- 使い方は、IseMotorDriverクラスのインスタンス << IseMotorDriver::createSettingData(..., ...) とすればよい(...には引数を入れる.)
 	- createSettinData()の引数はver.2のsetMode()と同じ
  - byte createSettingData(uint8_t, uint8_t)
  	- MD設定用データを作る
@@ -72,7 +73,9 @@ https://techweb.rohm.co.jp/motor/knowledge/basics/basics-03/206
 	- encoder()と同じ機能
  - bool operator !() const
  	- MDが通信可能かを判定する
-	- falseならOK、trueならNG
+	- falseならOK、trueならNG  
+
+ ※補足：クラスのインスタンス << IseMotorDriver::createSettingData(..., ...)を実行しなくても動作します(その場合、PWM周波数は64KHz、A3921の動作モードはSM_BRAKE_LOW_SIDEとなります). また、これらの関数の使い方については、サンプルコード(ise_motor_driver_v3.ino)を参照してください.  
 
 ### arduino_writing_machine
 #### arduino unoをAVR書き込み装置にする方法．
