@@ -13,7 +13,7 @@
 #include "motordriver.h"
 #include <avr/interrupt.h>
 
-#define I2C_ADDR 0x20
+#define I2C_ADDR 0x14
 #define PWM_64KHZ 0x01
 #define ENTER_CONFIGURATION_MODE 0x7fff
 
