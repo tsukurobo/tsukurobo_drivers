@@ -16,11 +16,12 @@
  - arduino_writeing_machine：arduinoをAVR書き込み装置とするために必要なファイル  
 
 ### master
- - master：現行バージョンのマスタープログラム  
+ - master：現行バージョンのマスタープログラム 
+ - ise_motor_driver_v3:ver.3です(注意：マスター側とスレーブ側のバージョンが合っていないと動作しません)
  - pre_master：前バージョンのマスタープログラム  
 
 ### slave
- - ise_motor_driver_ip：現行バージョンのマスタープログラム 
+ - ise_motor_driver_ip：現行バージョンのスレーブプログラム 
  - ise_motor_driver_slave: マスター側のプログラムがversion 3の場合はこれをslaveに入れてください
  - pre：前バージョンのスレーブプログラム  
  	 - i2c_slave：司令をそのまま出力するプログラム  
